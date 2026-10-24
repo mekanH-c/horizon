@@ -1,0 +1,539 @@
+/** The building blocks every chapter in the app is assembled from. */
+
+export type Block =
+  | { kind: 'p'; text: string }
+  | { kind: 'h'; text: string }
+  | {
+      kind: 'callout'
+      tone: 'insight' | 'warning' | 'tip' | 'india'
+      title?: string
+      text: string
+    }
+  | { kind: 'example'; title: string; text: string }
+  | { kind: 'list'; ordered?: boolean; items: string[] }
+  | { kind: 'table'; caption?: string; headers: string[]; rows: string[][] }
+  | { kind: 'formula'; label: string; expr: string; note?: string }
+  | { kind: 'scene'; name: SceneName; caption?: string }
+  | { kind: 'sim'; name: SimName; caption?: string }
+  | { kind: 'terms'; items: { term: string; meaning: string }[] }
+
+/** Animated SVG scenes, drawn entirely in code. */
+export type SceneName =
+  | 'coins'
+  | 'barter'
+  | 'timeline'
+  | 'rupee'
+  | 'rupee-erode'
+  | 'money-flow'
+  | 'rbi-funnel'
+  | 'bank-pyramid'
+  | 'income-streams'
+  | 'pie-needs-wants'
+  | 'spend-leak'
+  | 'ad-trap'
+  | 'peer-circle'
+  | 'budget-pie'
+  | 'expense-bars'
+  | 'goal-ladder'
+  | 'safe-vs-risk'
+  | 'interest-growth'
+  | 'inflation-crocodile'
+  | 'opportunity-fork'
+  | 'upi-flow'
+  | 'atm-machine'
+  | 'payment-rail'
+  | 'scam-hook'
+  | 'phishing-hook'
+  | 'shield'
+  | 'balance-sheet'
+  | 'emi-split'
+  | 'emergency-ladder'
+  | 'minpayment-trap'
+  | 'secured-vs-unsecured'
+  | 'insurance-umbrella'
+  | 'ponzi-chain'
+  | 'pyramid'
+  | 'fomo-chase'
+  | 'lifestyle-inflation'
+  | 'dashboard'
+  | 'score-meter'
+  | 'salary-deductions'
+  | 'risk-return-curve'
+  | 'capacity-tolerance'
+  | 'yield-curve'
+  | 'price-yield-inverse'
+  | 'profit-waterfall'
+  | 'share-slice'
+  | 'market-cap-ladder'
+  | 'fee-drag-visual'
+  | 'allocation-pie'
+  | 'currency-erosion'
+  | 'dividend-stream'
+  | 'property-cashflow'
+  | 'time-horizon'
+  | 'passive-vs-active'
+  | 'real-vs-nominal'
+  | 'gold-role'
+  | 'money-allocation'
+  // Level 4 scenes
+  | 'tax-bracket'
+  | 'tds-flow'
+  | 'cover-ladder'
+  | 'emi-split-early'
+  | 'nps-annuity'
+  | 'call-put'
+  | 'rent-vs-buy'
+  | 'loan-amort'
+  | 'deriv-payoff'
+  | 'currency-risk'
+  | 'growth-vs-value'
+  | 'corpus-ladder'
+  // Additional illustrations (reduce reuse within a level)
+  | 'freelance-climb'
+  | 'fee-addons'
+  | 'foreclosure-balance'
+  | 'vehicle-emi-true'
+  | 'due-date-clock'
+  | 'late-fee-record'
+  | 'policy-gaps'
+  | 'claim-steps'
+  | 'limit-vs-repay'
+  | 'default-cascade'
+  | 'credit-exposure'
+  | 'life-cover-dependants'
+  | 'motor-third-party'
+  | 'bnpl-stack'
+  | 'land-idle'
+  | 'apartment-dues'
+  | 'appreciation-forecast'
+  | 'property-tax-clock'
+  | 'stamp-duty-cost'
+  | 'registration-records'
+  | 'maintenance-drag'
+  | 'property-liquidity'
+  | 'mf-pool'
+  | 'nav-calc'
+  | 'hybrid-mix'
+  | 'diversify-fail'
+  | 'portfolio-build'
+  | 'target-vs-actual'
+  | 'expense-lines'
+  | 'cash-vs-profit'
+  | 'eps-split'
+  | 'roe-levers'
+  | 'debt-equity-mix'
+  | 'amc-expense'
+  | 'credit-spread'
+  | 'bond-terms'
+  | 'credit-vs-rate-risk'
+  | 'debt-fund-nav'
+  | 'nifty-50'
+  | 'pb-ratio'
+  | 'nifty-weights'
+  | 'sensex-30'
+  | 'manager-discretion'
+  | 'etf-wrapper'
+  | 'physical-gold-cost'
+  | 'silver-volatility'
+  | 'gain-pre-post-tax'
+  | 'face-vs-price'
+  | 'broker-costs'
+  | 'decision-journal'
+  | 'term-cover-rungs'
+  | 'whole-life-bundle'
+  | 'endowment-mix'
+  | 'ulip-charges'
+  | 'deductible-tradeoff'
+  | 'copay-slice'
+  | 'waiting-period'
+  | 'cover-exclusions'
+  | 'cover-claim-steps'
+  | 'contract-sizing'
+  | 'margin-leverage'
+  | 'expiry-intrinsic'
+  | 'mark-to-market'
+  | 'naked-speculation'
+  | 'risk-transfer'
+  | 'commodity-futures-roles'
+  | 'index-futures'
+  | 'direct-vs-indirect'
+  | 'taxable-base'
+  | 'deduction-effect'
+  | 'capital-gains-holding'
+  | 'stcg-vs-ltcg'
+  | 'business-taxes'
+  | 'inflation-target'
+  | 'epf-monthly'
+  | 'annuity-income'
+  | 'education-payoff'
+  | 'runway-cash'
+  | 'moneyness'
+  | 'premium-split'
+  | 'time-decay'
+  | 'volatility-effect'
+  | 'put-protection'
+  | 'accounting-quality'
+  | 'llp-liability'
+  | 'revenue-records'
+  | 'scholarship-offset'
+  | 'profit-growth-cash'
+  | 'exporter-importer'
+  | 'forward-lock'
+  | 'sole-prop-exposure'
+  | 'equity-financing'
+  | 'moat-defence'
+  | 'cashflow-reality'
+  | 'partnership-split'
+  | 'downpayment-effect'
+  | 'raise-compounding'
+  // Level 5 scenes (band one — the money system of a working life)
+  | 'first-payslip-split'
+  | 'negotiation-band'
+  | 'offer-total-value'
+  | 'ctc-waterfall'
+  // Level 5 scenes, band one batch 2 (l5-005 to l5-014)
+  | 'benefit-stack'
+  | 'pf-ledger'
+  | 'regime-seesaw'
+  | 'monthly-cycle'
+  | 'cover-months'
+  | 'sinking-jars'
+  | 'budget-shapes'
+  | 'zero-bucket'
+  | 'frame-vs-reality'
+  | 'cashflow-timeline'
+  // Level 5 scenes, band one batch 3 (l5-015 to l5-019)
+  | 'auto-transfer-rail'
+  | 'sip-machine'
+  | 'bill-clock'
+  | 'alert-trials'
+  | 'dashboard-one-page'
+  // Level 5 scenes, band two batch 1 (l5-020 to l5-029)
+  | 'construction-blocks'
+  | 'weight-targets'
+  | 'diversity-web'
+  | 'rebalance-band'
+  | 'goal-bucket-tree'
+  | 'reit-cashflow'
+  | 'invit-toll-road'
+  | 'currency-bridge'
+  | 'etf-nav-gap'
+  | 'alternatives-map'
+  // Level 5 scenes, band two batch 2 (l5-030 to l5-039)
+  | 'j-curve'
+  | 'power-law'
+  | 'liquidity-ladder'
+  | 'fee-stack'
+  | 'tax-year-grid'
+  | 'retirement-bridge'
+  | 'multiple-ladder'
+  | 'fire-timeline'
+  | 'rate-lever'
+  | 'income-stream-types'
+  // Level 5 scenes, band three batch 1 (l5-040 to l5-049)
+  | 'regulator-map'
+  | 'rbi-tools'
+  | 'sebi-shield'
+  | 'irdai-records'
+  | 'pension-architecture'
+  | 'bank-choice-grid'
+  | 'nbfc-boundary'
+  | 'insurer-scoreboard'
+  | 'amc-economics'
+  | 'exchange-plumbing'
+  // Level 5 scenes, band three batch 2 (l5-050 to l5-059)
+  | 'broker-fee-anatomy'
+  | 'depository-layer'
+  | 'kyc-flow'
+  | 'aml-funnel'
+  | 'protection-layers'
+  | 'complaint-ladder'
+  | 'rights-pathway'
+  | 'contract-anatomy'
+  | 'loan-clause-map'
+  | 'policy-anatomy'
+  // Level 5 scenes, band three batch 3 (l5-060 to l5-070)
+  | 'card-terms'
+  | 'broker-agreement-map'
+  | 'rent-agreement-terms'
+  | 'hidden-charge-radar'
+  | 'fee-normaliser'
+  | 'penalty-clock'
+  | 'clause-library'
+  | 'raise-negotiation'
+  | 'rent-levers'        | 'loan-levers'
+        | 'freelance-rate-build'
+        // Level 5 scenes — band four, batch 1
+        | 'estate-map'
+        | 'nominee-grid'
+        | 'beneficiary-tree'
+        | 'will-anatomy'
+        | 'inheritance-path'
+        | 'succession-timeline'
+        | 'joint-holding-modes'
+        | 'family-money-map'
+        | 'marriage-money-defaults'
+        | 'parent-support-plan'
+        // Level 5 scenes — band four, batch 2
+        | 'dependant-matrix'
+        | 'education-ladder'
+        | 'tco-breakdown'
+        | 'house-cost-stack'
+        | 'vehicle-five-year-cost'
+        | 'education-payback'
+        | 'rent-buy-crossover'
+        | 'new-used-curve'
+        | 'cash-finance-seesaw'
+        | 'crisis-order'
+        // Level 5 scenes — band four, batch 3, and the first of fraud & due diligence
+        | 'runway-months'
+        | 'hospital-flow'
+        | 'crash-playbook'
+        | 'recession-map'
+        | 'debt-triage'
+        | 'golden-hour'
+        | 'compromise-recovery'
+        | 'identity-trail'
+        | 'scam-triage'
+        | 'guru-credibility'
+        // Level 5 scenes — band three, batch 4: fraud & due diligence (l5-101 to l5-113)
+        | 'pump-dump-cycle'
+        | 'deepfake-check'
+        | 'fake-platform-funnel'
+        | 'job-offer-redflags'
+        | 'crypto-custody-layers'
+        | 'social-engineering-loop'
+        | 'diligence-checklist'
+        | 'product-compare-axes'
+        | 'return-source-tree'
+        | 'risk-matrix'
+        | 'time-to-cash'
+        | 'fee-waterfall'
+        | 'verification-desk'
+        // Level 5 scenes — AI tools (l5-114 to l5-122)
+        | 'ai-assist-boundary'
+        | 'ai-budget-loop'
+        | 'ai-formula-test'
+        | 'doc-ai-verify'
+        | 'learning-loop'
+        | 'ai-failure-modes'
+        | 'hallucination-hunt'
+        | 'redaction-filter'
+        | 'credential-wall'
+
+/** Hands-on simulations. */
+export type SimName =
+  | 'compound'
+  | 'budget'
+  | 'networth'
+  | 'market'
+  | 'sheet'
+  | 'rupee10'
+  | 'scam-spotter'
+  | 'emi'
+  | 'salary-slip'
+  | 'minpayment'
+  | 'cover'
+  | 'portfolio'
+  | 'bond'
+  | 'realreturn'
+  | 'currency'
+  | 'valuation'
+  | 'feedrag'
+  | 'cycle'        | 'tax'
+        | 'options-payoff'
+        // Level 5 labs — band four, batch 1
+        | 'l5-estate-planner'
+        | 'l5-nomination-audit'
+        | 'l5-beneficiary-designer'
+        | 'l5-will-builder'
+        | 'l5-inheritance-processor'
+        | 'l5-succession-planner'
+        | 'l5-joint-holding-chooser'
+        | 'l5-family-finance-setup'
+        | 'l5-marriage-finance-plan'
+        | 'l5-parent-care-budget'
+        // Level 5 labs — band four, batch 2
+        | 'l5-dependant-planner'
+        | 'l5-education-goal'
+        | 'l5-major-purchase-analyser'
+        | 'l5-house-affordability'
+        | 'l5-vehicle-tco'
+        | 'l5-education-roi'
+        | 'l5-rent-buy-model'
+        | 'l5-new-vs-used'
+        | 'l5-cash-vs-finance'
+        | 'l5-crisis-drill'
+        // Level 5 labs — band four, batch 3, and the first of fraud & due diligence
+        | 'l5-job-loss-plan'
+        | 'l5-medical-claim-run'
+        | 'l5-crash-simulator'
+        | 'l5-recession-adjuster'
+        | 'l5-debt-triage'
+        | 'l5-fraud-response-drill'
+        | 'l5-account-recovery'
+        | 'l5-identity-repair'
+        | 'l5-scam-inbox'
+        | 'l5-guru-audit'
+  // Level 5 labs — AI tools (l5-114 to l5-122). Each is its own chapter's.
+  | 'l5-ai-assistants'
+  | 'l5-ai-budget-review'
+  | 'l5-ai-formula-checker'
+  | 'l5-ai-policy-reader'
+  | 'l5-ai-tutor-audit'
+  | 'l5-ai-stress-test'
+  | 'l5-ai-claim-verifier'
+  | 'l5-ai-privacy-audit'
+  | 'l5-credential-defence'
+
+  // Level 5 labs (band one). Each is used by exactly one chapter.
+  | 'l5-first-salary-split'
+  | 'l5-negotiation-rounds'
+  | 'l5-offer-compare'
+  | 'l5-ctc-decompose'
+  // Level 5 labs, band one batch 2 (l5-005 to l5-014). Each is its own chapter's.
+  | 'l5-benefit-valuator'
+  | 'l5-pf-lifecycle'
+  | 'l5-regime-picker'
+  | 'l5-monthly-routine'
+  | 'l5-emergency-sizing'
+  | 'l5-sinking-planner'
+  | 'l5-budget-system-picker'
+  | 'l5-zero-based-builder'
+  | 'l5-ratio-stress-test'
+  | 'l5-cashflow-timing'
+  // Level 5 labs, band one batch 3 (l5-015 to l5-019). Each is its own chapter's.
+  | 'l5-automation-blueprint'
+  | 'l5-sip-automation'
+  | 'l5-bill-automation-board'
+  | 'l5-alert-tuning'
+  | 'l5-dashboard-designer'
+  // Level 5 labs, band two batch 1 (l5-020 to l5-029). Each is its own chapter's.
+  | 'l5-portfolio-architect'
+  | 'l5-allocation-designer'
+  | 'l5-overlap-checker'
+  | 'l5-rebalance-trigger'
+  | 'l5-goal-mapper'
+  | 'l5-reit-analyser'
+  | 'l5-invit-analyser'
+  | 'l5-global-diversifier'
+  | 'l5-etf-cost-check'
+  | 'l5-alternatives-screener'
+  // Level 5 labs, band two batch 2 (l5-030 to l5-039). Each is its own chapter's.
+  | 'l5-pe-waterfall'
+  | 'l5-vc-portfolio'
+  | 'l5-liquidity-map'
+  | 'l5-total-cost-of-ownership'
+  | 'l5-tax-planner'
+  | 'l5-retirement-projector'
+  | 'l5-independence-number'
+  | 'l5-fire-stress-test'
+  | 'l5-savings-rate-lab'
+  | 'l5-passive-income-audit'
+  // Level 5 labs, band three batch 1 (l5-040 to l5-049). Each is its own chapter's.
+  | 'l5-jurisdiction-finder'
+  | 'l5-rbi-checklist'
+  | 'l5-sebi-verify'
+  | 'l5-insurer-verify'
+  | 'l5-pension-setup'
+  | 'l5-bank-picker'
+  | 'l5-nbfc-check'
+  | 'l5-insurer-scorecard'
+  | 'l5-amc-diligence'
+  | 'l5-exchange-role'
+  // Level 5 labs, band three batch 2 (l5-050 to l5-059). Each is its own chapter's.
+  | 'l5-broker-compare'
+  | 'l5-demat-service-check'
+  | 'l5-kyc-doctor'
+  | 'l5-aml-simulator'
+  | 'l5-protection-limits'
+  | 'l5-complaint-builder'
+  | 'l5-consumer-case-builder'
+  | 'l5-contract-scanner'
+  | 'l5-loan-agreement-audit'
+  | 'l5-policy-reader'
+  // Level 5 labs, band three batch 3 (l5-060 to l5-070). Each is its own chapter's.
+  | 'l5-card-agreement-audit'
+  | 'l5-broker-agreement-audit'
+  | 'l5-rent-agreement-audit'
+  | 'l5-hidden-cost-hunt'
+  | 'l5-fee-normaliser'
+  | 'l5-penalty-dispute'
+  | 'l5-clause-spotter'
+  | 'l5-raise-negotiation'
+  | 'l5-rent-negotiation'
+  | 'l5-loan-negotiation'
+  | 'l5-freelance-rate'
+  // Level 5 labs, band three batch 4 (l5-101 to l5-113): fraud & due diligence.
+  | 'l5-pump-dump-detective'
+  | 'l5-verify-call'
+  | 'l5-platform-verifier'
+  | 'l5-job-scam-screener'
+  | 'l5-crypto-claim-check'
+  | 'l5-social-engineering-defence'
+  | 'l5-diligence-worksheet'
+  | 'l5-product-comparator'
+  | 'l5-return-source-analyser'
+  | 'l5-risk-register'
+  | 'l5-liquidity-stress'
+  | 'l5-fee-audit'
+  | 'l5-verify-entity'
+
+export type QuizOption = { text: string; correct?: boolean; why: string }
+
+export type Question = {
+  q: string
+  options: QuizOption[]
+}
+
+export type Chapter = {
+  id: string
+  title: string
+  /** One-line promise shown under the chapter title. */
+  subtitle: string
+  minutes: number
+  blocks: Block[]
+  quiz: Question[]
+  /** Chapter-level takeaway shown at the end. */
+  takeaway: string
+}
+
+// ──────────────────────────────────────────────────────────────── Planner types
+
+/** A single task in the daily planner. */
+export type ScheduledTask = {
+  id: string
+  /** Links to a curriculum chapter id, e.g. 'l1-001'. */
+  chapterId?: string
+  title: string
+  type: 'chapter' | 'quiz' | 'sim' | 'custom'
+  completed: boolean
+  completedAt?: string
+  /** YYYY-MM-DD of the original date if this task was rolled over from a past day. */
+  rolledOverFrom?: string
+  /** Freeform note the learner can attach to this task. */
+  notes?: string
+}
+
+/** Configuration for the auto-generated study plan. */
+export type StudyPlan = {
+  active: boolean
+  /** YYYY-MM-DD when the plan started. */
+  startDate: string
+  /** How many chapters per day (default 3). */
+  dailyPace: number
+  /** Which curriculum levels to include, e.g. [1, 2, 3, 4, 5]. */
+  selectedLevels: number[]
+}
+
+/**
+ * Planner state that lives alongside `Progress` in localStorage and
+ * (eventually) syncs through Supabase.
+ */
+export type PlannerState = {
+  studyPlan: StudyPlan
+  /** Scheduled tasks keyed by date (YYYY-MM-DD). */
+  dailyTasks: Record<string, ScheduledTask[]>
+  /** Freeform notebook scratchpad keyed by date (YYYY-MM-DD). */
+  dailyNotes: Record<string, string>
+}

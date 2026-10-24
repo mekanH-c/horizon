@@ -1,0 +1,240 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Custom fonts & policy compliance
+   ----------------------------------------------------------------------------
+   1. LIGATURES ARE OFF.
+   2. THE PERCENT SIGN IS EXCLUDED VIA unicode-range.
+   --------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Svetze';
+  src: url('/fonts/svetze/Svetze.otf') format('opentype');
+  font-weight: 400 900;
+  font-display: swap;
+  font-variant-ligatures: none;
+  unicode-range: U+0-24, U+26-7F, U+A0-2FF, U+2010-2027, U+2030-205E, U+20B9, U+20BA, U+2212;
+}
+
+@font-face {
+  font-family: 'Caviar Dreams';
+  src: url('/fonts/caviar_dreams/CaviarDreams.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+  font-variant-ligatures: none;
+  unicode-range: U+0-24, U+26-7F, U+A0-2FF, U+2010-2027, U+2030-205E, U+20B9, U+20BA, U+2212;
+}
+@font-face {
+  font-family: 'Caviar Dreams';
+  src: url('/fonts/caviar_dreams/CaviarDreams_Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-variant-ligatures: none;
+  unicode-range: U+0-24, U+26-7F, U+A0-2FF, U+2010-2027, U+2030-205E, U+20B9, U+20BA, U+2212;
+}
+@font-face {
+  font-family: 'Caviar Dreams';
+  src: url('/fonts/caviar_dreams/CaviarDreams_Italic.ttf') format('truetype');
+  font-style: italic;
+  font-display: swap;
+  font-variant-ligatures: none;
+  unicode-range: U+0-24, U+26-7F, U+A0-2FF, U+2010-2027, U+2030-205E, U+20B9, U+20BA, U+2212;
+}
+@font-face {
+  font-family: 'Recoleta';
+  src: url('/fonts/recoleta/Recoleta-RegularDEMO.otf') format('opentype');
+  font-display: swap;
+  font-variant-ligatures: none;
+  unicode-range: U+0-24, U+26-7F, U+A0-2FF, U+2010-2027, U+2030-205E, U+20B9, U+20BA, U+2212;
+}
+
+@theme {
+  --font-display: 'Archivo Black', 'Svetze', ui-rounded, sans-serif;
+  --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Space Grotesk', Georgia, serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Neo-Brutalism Global Color System */
+  --color-neo-bg: #FFE94A;
+  --color-neo-black: #111111;
+  --color-neo-white: #FFFFFF;
+  --color-neo-pink: #FF6B9E;
+  --color-neo-blue: #4D7CFE;
+  --color-neo-green: #00C48C;
+
+  /* Color mapping for brutalist high contrast */
+  --color-ink-50: #111111;
+  --color-ink-100: #111111;
+  --color-ink-200: #111111;
+  --color-ink-300: #222222;
+  --color-ink-400: #333333;
+  --color-ink-500: #444444;
+  --color-ink-600: #111111;
+  --color-ink-700: #111111;
+  --color-ink-800: #FFFFFF;
+  --color-ink-900: #FFFFFF;
+  --color-ink-950: #FFE94A;
+
+  --color-brand-300: #00C48C;
+  --color-brand-400: #00C48C;
+  --color-brand-500: #00C48C;
+  --color-brand-600: #00A374;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-variant-ligatures: none;
+    font-feature-settings:
+      'liga' 0,
+      'clig' 0,
+      'dlig' 0,
+      'hlig' 0,
+      'calt' 0;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: #FFE94A;
+    color: #111111;
+    font-family: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-variant-ligatures: none;
+    font-feature-settings:
+      'liga' 0,
+      'clig' 0,
+      'dlig' 0,
+      'hlig' 0,
+      'calt' 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Archivo Black', ui-rounded, sans-serif;
+    color: #111111;
+    letter-spacing: -0.02em;
+    font-variant-ligatures: none;
+    font-feature-settings:
+      'liga' 0,
+      'clig' 0,
+      'dlig' 0,
+      'hlig' 0,
+      'calt' 0;
+  }
+
+  * {
+    font-variant-ligatures: none;
+  }
+
+  ::selection {
+    background-color: #FF6B9E;
+    color: #111111;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Neo-Brutalist Utilities
+   --------------------------------------------------------------------------- */
+
+@utility border-3 {
+  border-width: 3px;
+}
+@utility border-t-3 {
+  border-top-width: 3px;
+}
+@utility border-b-3 {
+  border-bottom-width: 3px;
+}
+@utility border-l-3 {
+  border-left-width: 3px;
+}
+@utility border-r-3 {
+  border-right-width: 3px;
+}
+
+@utility shadow-neo {
+  box-shadow: 6px 6px 0px #111111;
+}
+@utility shadow-neo-sm {
+  box-shadow: 3px 3px 0px #111111;
+}
+@utility shadow-neo-lg {
+  box-shadow: 8px 8px 0px #111111;
+}
+
+@utility card {
+  border: 3px solid #111111;
+  border-radius: 0.5rem;
+  background-color: #FFFFFF;
+  color: #111111;
+  box-shadow: 6px 6px 0px #111111;
+  transition: all 0.15s ease;
+}
+
+@utility neo-box {
+  border: 3px solid #111111;
+  border-radius: 0.5rem;
+  background-color: #FFFFFF;
+  color: #111111;
+  box-shadow: 6px 6px 0px #111111;
+}
+
+@utility neo-btn {
+  border: 3px solid #111111;
+  border-radius: 0.5rem;
+  background-color: #FFFFFF;
+  color: #111111;
+  font-weight: 700;
+  box-shadow: 6px 6px 0px #111111;
+  transition: all 0.15s ease;
+  &:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 7px 7px 0px #111111;
+  }
+  &:active {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0px #111111;
+  }
+}
+
+@utility gradient-text {
+  color: #111111;
+  font-family: 'Archivo Black', sans-serif;
+  text-transform: uppercase;
+}
+
+@utility plain-font {
+  font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Slim scrollbar */
+@utility thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #111111 transparent;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border: 2px solid #111111;
+    border-radius: 4px;
+    background-color: #FF6B9E;
+  }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
